@@ -18,16 +18,23 @@ interface Contact {
 }
 
 async function getProjects(): Promise<ProjectCardInterface[]> {
-  const res = await fetch("/api/projects", {
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/projects`, {
     cache: "no-store",
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
+    // Add this to ensure the request works in both client and server environments
+    next: { revalidate: 0 },
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch projects");
+    // Return empty array instead of throwing error
+    return [];
   }
 
   return res.json();
@@ -76,9 +83,9 @@ export default async function Home() {
         <section className="mb-16" id="projects">
           <h2 className="text-2xl font-bold mb-6 dark:text-white">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map((project, index) => (
+            {projects?.map((project, index) => (
               <ProjectCard
-                key={index}
+                key={project.id || index}
                 projectName={project.projectName}
                 description={project.description}
                 demoLink={project.demoLink}
