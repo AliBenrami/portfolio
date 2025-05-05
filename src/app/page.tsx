@@ -2,6 +2,7 @@ import Image from "next/image";
 import Nav from "./component/nav";
 import Footer from "./component/footer";
 import ProjectCard from "./component/projectCard";
+import supabase from "./util/supabase";
 
 interface ProjectCardInterface {
   id: string;
@@ -18,26 +19,32 @@ interface Contact {
 }
 
 async function getProjects(): Promise<ProjectCardInterface[]> {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
-  const res = await fetch(`${baseUrl}/api/projects`, {
-    cache: "no-store",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  const backup = [
+    {
+      id: "1",
+      projectName: "Portfolio Website",
+      description:
+        "A personal portfolio website built with Next.js and TailwindCSS",
+      demoLink: "https://portfolio.demo",
+      githubLink: "https://github.com/AliBenrami/portfolio",
     },
-    // Add this to ensure the request works in both client and server environments
-    next: { revalidate: 0 },
-  });
+    {
+      id: "2",
+      projectName: "Pocket Secretary",
+      description:
+        "An AI-powered scheduling assistant that turns everyday language into structured calendar events with seamless Google Calendar integration.",
+      demoLink: "https://tasks.demo",
+      githubLink: "https://github.com/omahamz/PocketSecretary",
+    },
+  ];
 
-  if (!res.ok) {
-    // Return empty array instead of throwing error
-    return [];
+  const { data: projects, error } = await supabase.from("projects").select("*");
+
+  if (error) {
+    return backup;
   }
 
-  return res.json();
+  return projects ?? backup;
 }
 
 export default async function Home() {
