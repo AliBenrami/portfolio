@@ -41,7 +41,8 @@ async function getProjects(): Promise<ProjectCardInterface[]> {
   const { data: projects, error } = await supabase.from("projects").select("*");
 
   if (error) {
-    return backup;
+    console.log(error);
+    throw new Error("project call error");
   }
 
   return projects ?? backup;
