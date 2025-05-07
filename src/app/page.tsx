@@ -13,7 +13,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose dark:prose-invert prose-zinc dark:prose-zinc max-w-none">
           <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-lg border border-zinc-200 dark:border-zinc-700 font-mono">
             <div className="flex items-center mb-6">
               <Image
@@ -25,14 +25,16 @@ export default function Home() {
                 priority
               />
               <div>
-                <h1 className="text-2xl font-bold mb-1">Ali Benrmai</h1>
+                <h1 className="text-2xl font-bold mb-1 text-zinc-800 dark:text-zinc-200">
+                  Ali Benrmai
+                </h1>
                 <p className="text-zinc-600 dark:text-zinc-400">
                   Full Stack Developer
                 </p>
               </div>
             </div>
 
-            <div className="mb-8">
+            <div className="mb-8 text-zinc-700 dark:text-zinc-300">
               <p className="mb-4">Welcome to my portfolio file system! 👋</p>
               <p className="mb-4">
                 I&apos;m a passionate developer with experience in building web
@@ -45,8 +47,10 @@ export default function Home() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-lg font-semibold mb-3">Quick Links:</h2>
-              <ul className="list-disc list-inside space-y-1">
+              <h2 className="text-lg font-semibold mb-3 text-zinc-800 dark:text-zinc-200">
+                Quick Links:
+              </h2>
+              <ul className="list-disc list-inside space-y-1 text-zinc-700 dark:text-zinc-300">
                 <li>
                   📁{" "}
                   <a
