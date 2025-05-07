@@ -101,19 +101,19 @@ export default async function ProjectsPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4">
-        <div className="flex items-center mb-8">
-          <div className="w-10 h-10 mr-4 flex-shrink-0 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-            <span className="text-xl">📂</span>
+      <div className="p-2 sm:p-4">
+        <div className="flex items-center mb-6 sm:mb-8">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 mr-3 sm:mr-4 flex-shrink-0 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+            <span className="text-lg sm:text-xl">📂</span>
           </div>
-          <h1 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-200 font-mono">
+          <h1 className="text-xl sm:text-2xl font-semibold text-zinc-800 dark:text-zinc-200 font-mono">
             Projects
           </h1>
         </div>
 
         {/* File explorer "view options" bar */}
-        <div className="bg-zinc-100 dark:bg-zinc-900 mb-6 p-3 rounded-md flex items-center justify-between border border-zinc-200 dark:border-zinc-700">
-          <div className="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="bg-zinc-100 dark:bg-zinc-900 mb-4 sm:mb-6 p-2 sm:p-3 rounded-md flex items-center justify-between border border-zinc-200 dark:border-zinc-700">
+          <div className="flex items-center text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
             <span className="mr-4">
               <span className="font-semibold">{projects.length}</span> items
             </span>
@@ -121,6 +121,7 @@ export default async function ProjectsPage() {
               Sort by: <span className="underline cursor-pointer">Name</span>
             </span>
           </div>
+
           <div className="flex space-x-2">
             <button className="p-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800">
               <span>🗂️</span>
@@ -131,16 +132,16 @@ export default async function ProjectsPage() {
           </div>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* Display projects by category */}
           {Object.entries(projectsByCategory).map(
             ([category, categoryProjects]) =>
               categoryProjects.length > 0 && (
-                <div key={category} className="mb-8">
-                  <h2 className="text-lg font-medium mb-4 text-zinc-700 dark:text-zinc-300 border-b border-zinc-200 dark:border-zinc-700 pb-2">
+                <div key={category} className="mb-6 sm:mb-8">
+                  <h2 className="text-lg font-medium mb-3 sm:mb-4 text-zinc-700 dark:text-zinc-300 border-b border-zinc-200 dark:border-zinc-700 pb-2">
                     {category} ({categoryProjects.length})
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     {categoryProjects.map((project) => (
                       <ProjectCard
                         key={project.id}
@@ -160,7 +161,7 @@ export default async function ProjectsPage() {
           {Object.values(projectsByCategory).every(
             (arr) => arr.length === 0
           ) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {projects.map((project) => (
                 <ProjectCard
                   key={project.id}

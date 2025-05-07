@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "./theme-provider";
 
-const TopBar: React.FC = () => {
+interface TopBarProps {
+  onToggleSidebar: () => void;
+  sidebarOpen: boolean;
+}
+
+const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, sidebarOpen }) => {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
@@ -23,6 +28,15 @@ const TopBar: React.FC = () => {
     <div className="flex flex-col">
       {/* Window controls bar */}
       <div className="flex items-center h-10 px-4 bg-zinc-200 dark:bg-zinc-800 border-b border-zinc-300 dark:border-zinc-700">
+        {/* Mobile sidebar toggle */}
+        <button
+          onClick={onToggleSidebar}
+          className="md:hidden mr-2 p-1 rounded hover:bg-zinc-300 dark:hover:bg-zinc-700"
+          aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+        >
+          {sidebarOpen ? "✖" : "☰"}
+        </button>
+
         <div className="flex space-x-2">
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -43,8 +57,8 @@ const TopBar: React.FC = () => {
       </div>
 
       {/* Path navigation bar */}
-      <div className="flex items-center h-8 px-4 bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-300 dark:border-zinc-700 text-sm">
-        <div className="flex items-center text-zinc-600 dark:text-zinc-300 space-x-1">
+      <div className="flex items-center overflow-x-auto h-8 px-4 bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-300 dark:border-zinc-700 text-sm scrollbar-hide">
+        <div className="flex items-center text-zinc-600 dark:text-zinc-300 space-x-1 whitespace-nowrap">
           <span>📁</span>
           {formatPath(pathname)
             .split("/")

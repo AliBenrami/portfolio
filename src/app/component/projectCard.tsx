@@ -23,14 +23,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <div className="bg-zinc-100 dark:bg-zinc-900/80 p-3 flex items-center border-b border-zinc-200 dark:border-zinc-700">
         <span className="text-xl mr-2">{icon}</span>
-        <span className="font-mono font-medium text-zinc-800 dark:text-zinc-200">
+        <span className="font-mono font-medium text-zinc-800 dark:text-zinc-200 truncate">
           {projectName}
           <span className="text-zinc-500 dark:text-zinc-400">.html</span>
         </span>
       </div>
 
       <div className="p-4">
-        <p className="text-zinc-600 dark:text-zinc-300 mb-4">{description}</p>
+        <p className="text-zinc-600 dark:text-zinc-300 mb-4 text-sm sm:text-base">
+          {description}
+        </p>
 
         {technologies.length > 0 && (
           <div className="mb-4">
@@ -47,8 +49,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         )}
 
-        <div className="flex justify-between items-center">
-          <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
+          <div className="flex flex-wrap gap-4">
             <a
               href={demoLink}
               className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"

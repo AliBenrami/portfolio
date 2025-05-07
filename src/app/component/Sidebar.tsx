@@ -161,7 +161,7 @@ const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <div className="w-60 bg-zinc-100 dark:bg-zinc-900 p-4 overflow-y-auto border-r border-zinc-200 dark:border-zinc-700">
+    <div className="w-full md:w-60 bg-zinc-100 dark:bg-zinc-900 p-4 overflow-y-auto border-r border-zinc-200 dark:border-zinc-700 h-[calc(100vh-4.5rem)]">
       <div className="mb-4">
         <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-2">
           EXPLORER
