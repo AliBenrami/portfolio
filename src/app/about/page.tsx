@@ -39,8 +39,7 @@ export default function AboutPage() {
                 About Me
               </h1>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Full Stack Developer | React Specialist | Open Source
-                Contributor
+                Full Stack Developer | React Specialist
               </p>
             </div>
 

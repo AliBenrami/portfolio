@@ -34,7 +34,14 @@ async function getProjects(): Promise<ProjectCardInterface[]> {
         "An AI-powered scheduling assistant that turns everyday language into structured calendar events with seamless Google Calendar integration.",
       demoLink: "https://tasks.demo",
       githubLink: "https://github.com/omahamz/PocketSecretary",
-      technologies: ["React", "Node.js", "AI/ML", "Google API"],
+      technologies: [
+        "Flutter",
+        "Dart",
+        "Supabase",
+        "Google Auth",
+        "Google Calendar API",
+        "Gemini API",
+      ],
     },
     {
       id: "3",
