@@ -1,138 +1,104 @@
 import Image from "next/image";
-import Nav from "./component/nav";
-import Footer from "./component/footer";
-import ProjectCard from "./component/projectCard";
-import supabase from "./util/supabase";
 
-interface ProjectCardInterface {
-  id: string;
-  projectName: string;
-  description: string;
-  demoLink: string;
-  githubLink: string;
-}
-
-interface Contact {
-  GitHub: string;
-  LinkedIn: string;
-  Email: string;
-}
-
-async function getProjects(): Promise<ProjectCardInterface[]> {
-  const backup = [
-    {
-      id: "1",
-      projectName: "Portfolio Website",
-      description:
-        "A personal portfolio website built with Next.js and TailwindCSS",
-      demoLink: "https://portfolio.demo",
-      githubLink: "https://github.com/AliBenrami/portfolio",
-    },
-    {
-      id: "2",
-      projectName: "Pocket Secretary",
-      description:
-        "An AI-powered scheduling assistant that turns everyday language into structured calendar events with seamless Google Calendar integration.",
-      demoLink: "https://tasks.demo",
-      githubLink: "https://github.com/omahamz/PocketSecretary",
-    },
-  ];
-
-  const { data: projects, error } = await supabase.from("projects").select("*");
-
-  if (error) {
-    console.log(error);
-    throw new Error("project call error");
-  }
-
-  return projects ?? backup;
-}
-
-export default async function Home() {
-  const projects = await getProjects();
-  const contacts: Contact = {
-    GitHub: "https://github.com/AliBenrami",
-    LinkedIn: "https://www.linkedin.com/in/ali-benrami-232b05248/",
-    Email: "abenrami06@gmail.com",
-  };
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
-      <Nav />
-      <main className="flex-grow max-w-4xl mx-auto px-4 py-16">
-        {/* Hero Section */}
-        <section className="text-center mb-16" id="about">
-          <Image
-            className="rounded-full mx-auto mb-6"
-            src={"/profile.jpg"} // Add your photo to public folder
-            alt="Profile picture"
-            width={150}
-            height={150}
-            priority
-          />
-          <h1 className="text-4xl font-bold mb-4 dark:text-white">
-            Ali Benrmai
+    <div className="flex flex-col h-full">
+      <div className="p-2">
+        <div className="flex items-center mb-8">
+          <div className="w-10 h-10 mr-4 flex-shrink-0 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+            <span className="text-xl">📄</span>
+          </div>
+          <h1 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-200 font-mono">
+            Welcome.txt
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Full Stack Developer
-          </p>
-        </section>
+        </div>
 
-        {/* About Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-4 dark:text-white">About Me</h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            I&apos;m a passionate developer with experience in building web
-            applications. I specialize in React, Next.js, and Node.js.
-          </p>
-        </section>
-
-        {/* Projects Section */}
-        <section className="mb-16" id="projects">
-          <h2 className="text-2xl font-bold mb-6 dark:text-white">Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects?.map((project, index) => (
-              <ProjectCard
-                key={project.id || index}
-                projectName={project.projectName}
-                description={project.description}
-                demoLink={project.demoLink}
-                githubLink={project.githubLink}
+        <div className="prose dark:prose-invert max-w-none">
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-lg border border-zinc-200 dark:border-zinc-700 font-mono">
+            <div className="flex items-center mb-6">
+              <Image
+                className="rounded-full mr-4"
+                src="/profile.jpg"
+                alt="Profile picture"
+                width={80}
+                height={80}
+                priority
               />
-            ))}
-          </div>
-        </section>
+              <div>
+                <h1 className="text-2xl font-bold mb-1">Ali Benrmai</h1>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  Full Stack Developer
+                </p>
+              </div>
+            </div>
 
-        {/* Contact Section */}
-        <section id="contact">
-          <h2 className="text-2xl font-bold mb-6 dark:text-white">Contact</h2>
-          <div className="flex gap-6 justify-center">
-            <a
-              href={contacts.GitHub}
-              className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-            <a
-              href={contacts.LinkedIn}
-              className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={contacts.Email}
-              className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-            >
-              Email
-            </a>
+            <div className="mb-8">
+              <p className="mb-4">Welcome to my portfolio file system! 👋</p>
+              <p className="mb-4">
+                I&apos;m a passionate developer with experience in building web
+                applications. I specialize in React, Next.js, and Node.js.
+              </p>
+              <p>
+                Navigate through the folders on the left to explore my projects,
+                learn more about me, or find my contact information.
+              </p>
+            </div>
+
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-3">Quick Links:</h2>
+              <ul className="list-disc list-inside space-y-1">
+                <li>
+                  📁{" "}
+                  <a
+                    href="/about"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    About
+                  </a>{" "}
+                  - Learn more about me and my skills
+                </li>
+                <li>
+                  📁{" "}
+                  <a
+                    href="/projects"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    Projects
+                  </a>{" "}
+                  - Browse my recent work
+                </li>
+                <li>
+                  📄{" "}
+                  <a
+                    href="/resume"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    Resume.pdf
+                  </a>{" "}
+                  - View or download my resume
+                </li>
+                <li>
+                  📄{" "}
+                  <a
+                    href="/contact"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    Contact.txt
+                  </a>{" "}
+                  - Get in touch with me
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                <span className="font-semibold">Last modified:</span>{" "}
+                {new Date().toLocaleDateString()}
+              </p>
+            </div>
           </div>
-        </section>
-      </main>
-      <Footer />
+        </div>
+      </div>
     </div>
   );
 }
