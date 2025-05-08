@@ -132,8 +132,8 @@ export default function AboutPage() {
               </h1>
             </div>
 
-            <div className="bg-zinc-900 p-4 sm:p-6 rounded-lg overflow-x-auto">
-              <pre className="text-xs sm:text-sm text-green-400 font-mono">
+            <div className="bg-slate-50 dark:bg-zinc-900 p-4 sm:p-6 rounded-lg overflow-x-auto">
+              <pre className="text-xs sm:text-sm text-green-700 dark:text-green-400 font-mono">
                 {`{
   "name": "Ali Benrmai",
   "title": "Full Stack Developer",
