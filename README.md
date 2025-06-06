@@ -1,4 +1,4 @@
-# Ali Ben Rami's Portfolio
+# Ali Benrami's Portfolio
 
 This portfolio is built with [Next.js](https://nextjs.org), showcasing my projects and professional experience.
 
