@@ -18,6 +18,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
+## Environment Variables
+
+This project requires Supabase credentials to function. Create a `.env.local` file in the project root and add the following variables:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+```
+
+These values configure the Supabase client used in `src/app/util/supabase.ts`.
+
 ## Features
 
 - Modern responsive design
