@@ -5,6 +5,11 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "./theme-provider";
 
+export const formatPath = (path: string): string => {
+  if (path === "/") return "/Portfolio/Home";
+  return "/Portfolio" + path.replace(/\/(\w)/g, (_, char) => "/" + char.toUpperCase());
+};
+
 interface TopBarProps {
   onToggleSidebar: () => void;
   sidebarOpen: boolean;
@@ -14,15 +19,7 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, sidebarOpen }) => {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
-  // Convert the pathname to a file explorer-style path
-  const formatPath = (path: string) => {
-    if (path === "/") return "/Portfolio/Home";
-    // Replace the first slash and capitalize each segment
-    return (
-      "/Portfolio" +
-      path.replace(/\/(\w)/g, (_, char) => "/" + char.toUpperCase())
-    );
-  };
+
 
   return (
     <div className="flex flex-col">
@@ -92,3 +89,4 @@ const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, sidebarOpen }) => {
 };
 
 export default TopBar;
+export { formatPath };
