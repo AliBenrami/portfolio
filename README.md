@@ -18,6 +18,14 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
+## Running Tests
+
+Run the unit tests with Jest:
+
+```bash
+npm test
+```
+
 ## Features
 
 - Modern responsive design
