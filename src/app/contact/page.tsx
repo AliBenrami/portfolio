@@ -22,6 +22,7 @@ export default function ContactPage() {
         <p className="mt-2 text-white/80">{ContactDetails.description}</p>
 
         <div className="mt-4 overflow-hidden rounded-[200px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={ContactDetails.image}
             alt={ContactDetails.name}

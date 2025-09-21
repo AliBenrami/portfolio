@@ -9,7 +9,7 @@ interface PortfolioDetails {
 }
 
 export default function Home() {
-  const [portfolioDetails, setPortfolioDetails] = useState<PortfolioDetails>({
+  const [portfolioDetails] = useState<PortfolioDetails>({
     name: "Ali Benrami",
     description: "Full Stack Developer",
     image: "https://avatars.githubusercontent.com/u/111257593?v=4",
@@ -25,6 +25,7 @@ export default function Home() {
         <p className="mt-2 text-white/80">{portfolioDetails.description}</p>
 
         <div className="mt-4 overflow-hidden rounded-[200px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={portfolioDetails.image}
             alt={portfolioDetails.name}
