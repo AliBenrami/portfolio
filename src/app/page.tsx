@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 interface PortfolioDetails {
   name: string;
@@ -25,8 +26,9 @@ export default function Home() {
         <p className="mt-2 text-white/80">{portfolioDetails.description}</p>
 
         <div className="mt-4 overflow-hidden rounded-[200px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
+            width={200}
+            height={200}
             src={portfolioDetails.image}
             alt={portfolioDetails.name}
             className="w-full h-56 md:h-64 object-cover"

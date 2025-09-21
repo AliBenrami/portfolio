@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import CopyContent from "@/components/copyContent";
+import Image from "next/image";
 
 export default function ContactPage() {
   const ContactDetails = {
@@ -22,8 +23,9 @@ export default function ContactPage() {
         <p className="mt-2 text-white/80">{ContactDetails.description}</p>
 
         <div className="mt-4 overflow-hidden rounded-[200px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
+            width={200}
+            height={200}
             src={ContactDetails.image}
             alt={ContactDetails.name}
             className="w-full h-56 md:h-64 object-cover"
