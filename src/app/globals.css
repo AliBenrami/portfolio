@@ -53,6 +53,19 @@ body {
   animation: loading-progress 2s infinite;
 }
 
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+
+.animate-shake {
+  animation: shake 1s infinite;
+}
+
 /* Custom scrollbar for file explorer feel */
 ::-webkit-scrollbar {
   width: 10px;
@@ -82,4 +95,28 @@ body {
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #777;
+}
+
+/* Twinkle animation for the sky background dots */
+@keyframes twinkle {
+  0% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.15);
+  }
+  75% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
 }

@@ -12,6 +12,15 @@ module.exports = {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
       },
+      animation: {
+        shake: "shake 1s infinite",
+      },
+      keyframes: {
+        shake: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(10px)" },
+        },
+      },
     },
   },
   plugins: [],
