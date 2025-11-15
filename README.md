@@ -26,6 +26,15 @@ Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 - Contact information
 - Built with Next.js and TypeScript
 
+## Testing
+
+Install dependencies and run the Jest test suite:
+
+```bash
+npm install
+npm test
+```
+
 ## Technologies
 
 - [Next.js](https://nextjs.org) - React framework
