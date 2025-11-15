@@ -27,7 +27,7 @@ export default function SkyBackground() {
     setDots(initialDots);
   }, []);
 
-  // Background dots are static; animation is handled via CSS only.
+  // Dots render statically; inline styles set each dot's animation timing while the twinkle keyframes live in CSS.
 
   return (
     <div
