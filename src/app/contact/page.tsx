@@ -37,7 +37,7 @@ export default function ContactPage() {
               Github
             </Button>
             <Button href={ContactDetails.linkedin} onClick={() => {}}>
-              Linkedin
+              LinkedIn
             </Button>
           </div>
           <div className="flex flex-col  justify-center items-center">
