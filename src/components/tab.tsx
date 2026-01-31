@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 const Tab = ({ tabs }: { tabs: string[] }) => {
   const router = useRouter();
   const handleTabClick = (tab: string) => {
-    console.log(tab);
     if (tab === "Home") {
       router.push("/");
       return;
     }
-    router.push(`/${tab}`);
+
+    // Route segments in Next are case-sensitive in production environments.
+    // Normalize tab labels ("Contact") to the actual route path ("/contact").
+    router.push(`/${tab.toLowerCase()}`);
   };
   return (
     <div className="absolute z-20 top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-row gap-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl p-6">
