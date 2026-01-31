@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { featuredProjects } from "@/data/featuredProjects";
+import ProjectDialog, { type ProjectViewModel } from "@/components/ProjectDialog";
 
 type Project = {
   name: string;
@@ -11,6 +12,17 @@ type Project = {
   demo?: string;
   proudOf?: string;
 };
+
+function toProjectViewModel(p: Project): ProjectViewModel {
+  return {
+    name: p.name,
+    problem: p.problem,
+    stack: p.stack,
+    github: p.github,
+    demo: p.demo,
+    highlight: p.proudOf,
+  };
+}
 
 type GitHubUser = {
   login: string;
@@ -103,6 +115,8 @@ export default function HomePage() {
     "idle"
   );
   const [ghUser, setGhUser] = useState<GitHubUser | null>(null);
+  const [activeProject, setActiveProject] = useState<ProjectViewModel | null>(null);
+  const [projectOpen, setProjectOpen] = useState(false);
 
   const hasCurated = featuredProjects.some((p) => !p.name.startsWith("TODO:"));
 
@@ -205,6 +219,11 @@ export default function HomePage() {
     []
   );
 
+  const openProject = useCallback((p: Project) => {
+    setActiveProject(toProjectViewModel(p));
+    setProjectOpen(true);
+  }, []);
+
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -296,9 +315,11 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {projects.map((p) => (
-              <article
+              <button
                 key={p.name}
-                className="rounded-2xl border border-white/10 bg-black/20 p-5"
+                type="button"
+                onClick={() => openProject(p)}
+                className="group relative rounded-2xl border border-white/10 bg-black/20 p-5 text-left transition-transform duration-200 hover:-translate-y-0.5 hover:border-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <h3 className="text-base font-semibold text-white">{p.name}</h3>
                 <p className="mt-2 text-sm text-white/70">{p.problem}</p>
@@ -316,37 +337,16 @@ export default function HomePage() {
                   </div>
                 ) : null}
 
-                {p.proudOf ? (
-                  <p className="mt-4 text-sm text-white/65">
-                    <span className="text-white/80">Design decision:</span> {p.proudOf}
-                  </p>
-                ) : null}
-
-                <div className="mt-5 flex gap-3 text-sm">
-                  {p.github ? (
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-white/80 hover:text-white"
-                    >
-                      GitHub
-                    </a>
-                  ) : null}
-                  {p.demo ? (
-                    <a
-                      href={p.demo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-white/80 hover:text-white"
-                    >
-                      Live Demo
-                    </a>
-                  ) : null}
-                </div>
-              </article>
+                <p className="mt-4 text-xs text-white/60">Click for details</p>
+              </button>
             ))}
           </div>
+
+          <ProjectDialog
+            open={projectOpen}
+            onOpenChange={setProjectOpen}
+            project={activeProject}
+          />
         </Section>
 
         <Section id="about" title="🧠 About">
