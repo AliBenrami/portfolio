@@ -120,3 +120,19 @@ body {
     transform: scale(1);
   }
 }
+
+/* Slow drift for subtle parallax-like motion */
+@keyframes star-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(var(--dx), var(--dy), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-dot {
+    animation: none !important;
+  }
+}
