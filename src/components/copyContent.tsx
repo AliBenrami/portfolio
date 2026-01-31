@@ -32,13 +32,27 @@ export default function CopyContent({ content }: { content: string }) {
       aria-label="Copy content"
       title={content}
       onClick={() => {
-        navigator.clipboard.writeText(content);
+        // Clipboard may be unavailable in some environments (non-secure context, older browsers, tests).
+        // We still toggle UI feedback even if copy fails.
+        try {
+          if (typeof window !== "undefined") {
+            window.navigator.clipboard?.writeText?.(content);
+          }
+        } catch {
+          // no-op
+        }
         setIsCopied(true);
       }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          navigator.clipboard.writeText(content);
+          try {
+            if (typeof window !== "undefined") {
+              window.navigator.clipboard?.writeText?.(content);
+            }
+          } catch {
+            // no-op
+          }
           setIsCopied(true);
         }
       }}

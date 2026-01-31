@@ -1,5 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import CopyContent from "../copyContent";
 
@@ -13,16 +12,25 @@ describe("CopyContent", () => {
 
   beforeEach(() => {
     jest.useFakeTimers();
-    writeTextMock = jest.fn();
 
-    Object.defineProperty(navigator, "clipboard", {
-      value: { writeText: writeTextMock },
+    const clipboard = {
+      writeText: async () => {},
+    };
+
+    Object.defineProperty(window.navigator, "clipboard", {
+      value: clipboard,
       configurable: true,
     });
+
+    writeTextMock = jest
+      .spyOn(clipboard, "writeText")
+      .mockResolvedValue(undefined as unknown as void);
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
     jest.useRealTimers();
     jest.clearAllMocks();
 
@@ -37,7 +45,6 @@ describe("CopyContent", () => {
   });
 
   it("copies the content on click and toggles the success icon", async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const sampleContent = "copy me";
     const { container } = render(<CopyContent content={sampleContent} />);
 
@@ -47,7 +54,9 @@ describe("CopyContent", () => {
     expect(initialIcon).not.toBeNull();
     expect(initialIcon?.classList.contains("text-white/80")).toBe(true);
 
-    await user.click(button);
+    act(() => {
+      fireEvent.click(button);
+    });
 
     expect(writeTextMock).toHaveBeenCalledWith(sampleContent);
 
@@ -65,14 +74,15 @@ describe("CopyContent", () => {
   });
 
   it("supports copying via keyboard interactions", async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const sampleContent = "keyboard copy";
     const { container } = render(<CopyContent content={sampleContent} />);
 
     const button = screen.getByRole("button", { name: /copy content/i });
 
     button.focus();
-    await user.keyboard("{Enter}");
+    act(() => {
+      fireEvent.keyDown(button, { key: "Enter" });
+    });
 
     expect(writeTextMock).toHaveBeenCalledWith(sampleContent);
     expect(container.querySelector("svg")?.classList.contains("text-green-400"))
@@ -86,7 +96,9 @@ describe("CopyContent", () => {
       .toBe(true);
 
     button.focus();
-    await user.keyboard(" ");
+    act(() => {
+      fireEvent.keyDown(button, { key: " " });
+    });
 
     expect(writeTextMock).toHaveBeenCalledTimes(2);
     expect(container.querySelector("svg")?.classList.contains("text-green-400"))
