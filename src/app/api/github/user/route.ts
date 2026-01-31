@@ -23,6 +23,8 @@ export async function GET() {
     name?: string | null;
     bio?: string | null;
     blog?: string | null;
+    avatar_url?: string | null;
+    html_url?: string | null;
     public_repos: number;
     followers: number;
     following: number;
@@ -33,6 +35,8 @@ export async function GET() {
     name: data.name ?? null,
     bio: data.bio ?? null,
     blog: data.blog ?? null,
+    avatarUrl: data.avatar_url ?? null,
+    htmlUrl: data.html_url ?? null,
     publicRepos: data.public_repos,
     followers: data.followers,
     following: data.following,
