@@ -14,6 +14,9 @@ type Project = {
 
 type GitHubUser = {
   login: string;
+  name?: string | null;
+  bio?: string | null;
+  blog?: string | null;
   publicRepos: number;
   followers: number;
   following: number;
@@ -101,7 +104,7 @@ export default function HomePage() {
   );
   const [ghUser, setGhUser] = useState<GitHubUser | null>(null);
 
-  const hasCurated = featuredProjects.length > 0;
+  const hasCurated = featuredProjects.some((p) => !p.name.startsWith("TODO:"));
 
   useEffect(() => {
     // GitHub stats (lightweight; server-cached)
@@ -194,8 +197,9 @@ export default function HomePage() {
   const experiments: Experiment[] = useMemo(
     () => [
       {
-        name: "Small tools / demos",
-        note: "A place for half-finished ideas and curiosity-driven builds.",
+        name: "TODO(Ali): Experiment name",
+        note: "TODO(Ali): 1-line note (what you tried / learned).",
+        link: "TODO(Ali): optional link",
       },
     ],
     []
@@ -215,10 +219,10 @@ export default function HomePage() {
           COMPUTER SCIENCE
         </p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-          Ali Benrami
+          {ghUser?.name || "Ali Benrami"}
         </h1>
         <p className="mt-4 text-base leading-relaxed text-white/70">
-          Computer Science student building thoughtful software.
+          {ghUser?.bio || "TODO(Ali): one-line description"}
         </p>
         <div className="mt-6 flex flex-col items-center gap-3">
           <button
@@ -347,25 +351,21 @@ export default function HomePage() {
 
         <Section id="about" title="🧠 About">
           <p className="text-sm leading-relaxed text-white/75">
-            I’m a CS student focused on building reliable web software and tooling.
-            I care about clarity, debugging discipline, and systems that are easy to
-            extend.
+            {ghUser?.bio || "TODO(Ali): 2–3 sentence technical bio."}
           </p>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div>
-              <h3 className="text-sm font-medium text-white">Current interests</h3>
+              <h3 className="text-sm font-medium text-white">Interests</h3>
               <ul className="mt-2 space-y-1 text-sm text-white/70">
-                <li>Web engineering (Next.js / TypeScript)</li>
-                <li>Systems fundamentals</li>
-                <li>AI tooling + developer UX</li>
+                <li>TODO(Ali): interest</li>
+                <li>TODO(Ali): interest</li>
+                <li>TODO(Ali): interest</li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-medium text-white">Currently exploring</h3>
-              <p className="mt-2 text-sm text-white/70">
-                Clean architecture patterns, testing strategy, and performance profiling.
-              </p>
+              <p className="mt-2 text-sm text-white/70">TODO(Ali): what you’re exploring</p>
             </div>
           </div>
         </Section>
@@ -401,35 +401,32 @@ export default function HomePage() {
             <div>
               <h3 className="text-sm font-medium text-white">Comfortable with</h3>
               <ul className="mt-2 space-y-1 text-sm text-white/70">
-                <li>TypeScript</li>
-                <li>React</li>
-                <li>Next.js</li>
-                <li>Git</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-medium text-white">Used in projects</h3>
               <ul className="mt-2 space-y-1 text-sm text-white/70">
-                <li>PostgreSQL</li>
-                <li>Node.js</li>
-                <li>Tailwind</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-medium text-white">Currently exploring</h3>
               <ul className="mt-2 space-y-1 text-sm text-white/70">
-                <li>Testing (Jest / RTL)</li>
-                <li>Performance + profiling</li>
-                <li>Systems / compilers</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
+                <li>TODO(Ali)</li>
               </ul>
             </div>
           </div>
 
           <div className="mt-6">
             <h3 className="text-sm font-medium text-white">Engineering values</h3>
-            <p className="mt-2 text-sm text-white/70">
-              Readability, performance, and UX — with pragmatic trade-offs.
-            </p>
+            <p className="mt-2 text-sm text-white/70">TODO(Ali): values (optional)</p>
           </div>
         </Section>
 

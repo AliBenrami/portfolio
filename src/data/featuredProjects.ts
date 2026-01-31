@@ -12,12 +12,14 @@ export type FeaturedProject = {
  * Keep them short and concrete (1-line problem, 1 optional highlight).
  */
 export const featuredProjects: FeaturedProject[] = [
-  {
-    name: "TODO: Project name",
-    problem: "TODO: 1-line problem statement (what you solved).",
-    stack: ["TODO: TS", "TODO: Next.js"],
-    github: "https://github.com/AliBenrami/portfolio",
-    demo: "TODO: add live demo URL (or remove)",
-    highlight: "TODO: One design decision / constraint you handled well.",
-  },
+  // TODO(Ali): Add your curated projects here. Keep it short + concrete.
+  // Example shape:
+  // {
+  //   name: "My Project",
+  //   problem: "1-line problem statement.",
+  //   stack: ["TypeScript", "Next.js"],
+  //   github: "https://github.com/...",
+  //   demo: "https://...",
+  //   highlight: "Optional: design decision / constraint you handled.",
+  // },
 ];
