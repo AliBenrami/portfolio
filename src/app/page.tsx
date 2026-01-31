@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { featuredProjects } from "@/data/featuredProjects";
 
 type Project = {
   name: string;
@@ -9,6 +10,13 @@ type Project = {
   github?: string;
   demo?: string;
   proudOf?: string;
+};
+
+type GitHubUser = {
+  login: string;
+  publicRepos: number;
+  followers: number;
+  following: number;
 };
 
 type GitHubRepo = {
@@ -91,20 +99,61 @@ export default function HomePage() {
   const [projectsStatus, setProjectsStatus] = useState<"idle" | "loading" | "error" | "success">(
     "idle"
   );
+  const [ghUser, setGhUser] = useState<GitHubUser | null>(null);
+
+  const hasCurated = featuredProjects.length > 0;
 
   useEffect(() => {
+    // GitHub stats (lightweight; server-cached)
+    let cancelled = false;
+    fetch("/api/github/user")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        setGhUser(data);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setGhUser(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    // Prefer curated list (easiest to edit, avoids random repos). Fall back to GitHub recents.
+    if (hasCurated) {
+      setProjects(
+        featuredProjects
+          .filter((p) => !p.name.startsWith("TODO:"))
+          .map((p) => ({
+            name: p.name,
+            problem: p.problem,
+            stack: p.stack,
+            github: p.github,
+            demo: p.demo?.startsWith("TODO:") ? undefined : p.demo,
+            proudOf: p.highlight,
+          }))
+      );
+      setProjectsStatus("success");
+      return;
+    }
+
     let cancelled = false;
 
     async function load() {
       try {
         setProjectsStatus("loading");
 
-        const res = await fetch("https://api.github.com/users/AliBenrami/repos?per_page=100&sort=pushed", {
-          headers: {
-            // Request topics when available
-            Accept: "application/vnd.github+json",
-          },
-        });
+        const res = await fetch(
+          "https://api.github.com/users/AliBenrami/repos?per_page=100&sort=pushed",
+          {
+            headers: {
+              Accept: "application/vnd.github+json",
+            },
+          }
+        );
 
         if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
 
@@ -117,10 +166,6 @@ export default function HomePage() {
           .map<Project>((r) => {
             const stack: string[] = [];
             if (r.language) stack.push(r.language);
-            // Keep stack concise: add up to 2 topic hints if present
-            const topics = (r.topics || []).slice(0, 2);
-            stack.push(...topics);
-
             return {
               name: r.name,
               problem: r.description || "—",
@@ -144,7 +189,7 @@ export default function HomePage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [hasCurated]);
 
   const experiments: Experiment[] = useMemo(
     () => [
@@ -175,7 +220,7 @@ export default function HomePage() {
         <p className="mt-4 text-base leading-relaxed text-white/70">
           Computer Science student building thoughtful software.
         </p>
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex flex-col items-center gap-3">
           <button
             type="button"
             onClick={() => scrollTo("projects")}
@@ -183,6 +228,17 @@ export default function HomePage() {
           >
             View Projects
           </button>
+
+          {ghUser ? (
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-white/70">
+              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+                {ghUser.publicRepos} repos
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+                {ghUser.followers} followers
+              </span>
+            </div>
+          ) : null}
         </div>
       </header>
 
