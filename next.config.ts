@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    // Allow Next/Image to optimize the GitHub avatar used on the Contact page.
+    // (In production, external image domains must be explicitly allowed.)
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -17,14 +27,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-};
-
-module.exports = {
-  images: {
-    remotePatterns: [
-      new URL("https://avatars.githubusercontent.com/u/111257593?v=4"),
-    ],
   },
 };
 
