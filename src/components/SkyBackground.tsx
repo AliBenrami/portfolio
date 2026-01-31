@@ -68,10 +68,46 @@ function generateDots(seed: number, count: number): Dot[] {
 
 export default function SkyBackground() {
   const [dots, setDots] = useState<Dot[]>([]);
+  const [parallax, setParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
     const seed = getOrCreateSkySeed();
     setDots(generateDots(seed, 250));
+  }, []);
+
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (reduce) return;
+
+    // Very subtle parallax. Smooth with rAF so cursor movement doesn't feel jittery.
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let curX = 0;
+    let curY = 0;
+
+    const onMove = (e: PointerEvent) => {
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      targetX = nx;
+      targetY = ny;
+    };
+
+    const tick = () => {
+      curX += (targetX - curX) * 0.08;
+      curY += (targetY - curY) * 0.08;
+      // Scale down to keep it calm.
+      setParallax({ x: curX * 10, y: curY * 8 });
+      raf = window.requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    raf = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
@@ -79,39 +115,47 @@ export default function SkyBackground() {
       aria-hidden
       className="fixed inset-0 z-0 w-screen h-screen bg-gradient-to-br from-black to-blue-950 overflow-hidden pointer-events-none"
     >
-      {dots.map((dot) => (
-        <div
-          key={dot.id}
-          className="absolute items-center justify-center sky-dot"
-          style={
-            {
-              left: `${dot.x * 100}%`,
-              top: `${dot.y * 100}%`,
-              // Combine twinkle + drift; keep transforms isolated to this wrapper
-              animation: `twinkle ${dot.twinkleDuration}s cubic-bezier(0.45, 0.05, 0.55, 0.95) ${dot.twinkleDelay}s infinite, star-drift ${dot.driftDuration}s ease-in-out ${dot.twinkleDelay}s infinite alternate`,
-              animationFillMode: "both",
-              opacity: 0.25,
-              willChange: "opacity, transform",
-              // Drift targets (CSS variables used by star-drift)
-              "--dx": `${dot.driftX.toFixed(2)}px`,
-              "--dy": `${dot.driftY.toFixed(2)}px`,
-            } as React.CSSProperties & { "--dx": string; "--dy": string }
-          }
-        >
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: `translate3d(${parallax.x.toFixed(2)}px, ${parallax.y.toFixed(2)}px, 0)`,
+          willChange: "transform",
+        }}
+      >
+        {dots.map((dot) => (
           <div
-            className="bg-white/80 rounded-full flex items-center justify-center"
-            style={{ width: dot.size, height: dot.size }}
+            key={dot.id}
+            className="absolute items-center justify-center sky-dot"
+            style={
+              {
+                left: `${dot.x * 100}%`,
+                top: `${dot.y * 100}%`,
+                // Combine twinkle + drift; keep transforms isolated to this wrapper
+                animation: `twinkle ${dot.twinkleDuration}s cubic-bezier(0.45, 0.05, 0.55, 0.95) ${dot.twinkleDelay}s infinite, star-drift ${dot.driftDuration}s ease-in-out ${dot.twinkleDelay}s infinite alternate`,
+                animationFillMode: "both",
+                opacity: 0.25,
+                willChange: "opacity, transform",
+                // Drift targets (CSS variables used by star-drift)
+                "--dx": `${dot.driftX.toFixed(2)}px`,
+                "--dy": `${dot.driftY.toFixed(2)}px`,
+              } as React.CSSProperties & { "--dx": string; "--dy": string }
+            }
           >
             <div
-              className="bg-white/60 rounded-full blur-[10px]"
-              style={{
-                width: dot.size + 10,
-                height: dot.size + 10,
-              }}
-            />
+              className="bg-white/80 rounded-full flex items-center justify-center"
+              style={{ width: dot.size, height: dot.size }}
+            >
+              <div
+                className="bg-white/60 rounded-full blur-[10px]"
+                style={{
+                  width: dot.size + 10,
+                  height: dot.size + 10,
+                }}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

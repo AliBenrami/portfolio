@@ -1,49 +1,342 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
 
-interface PortfolioDetails {
+import { useCallback, useMemo } from "react";
+
+type Project = {
   name: string;
-  description: string;
-  image: string;
-  link: string;
+  problem: string;
+  stack: string[];
+  github?: string;
+  demo?: string;
+  proudOf?: string;
+};
+
+type Experiment = {
+  name: string;
+  note: string;
+  link?: string;
+};
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="scroll-mt-24">
+      <div className="mb-5 flex items-baseline justify-between">
+        <h2 className="text-lg font-semibold tracking-tight text-white">{title}</h2>
+      </div>
+      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 md:p-6">
+        {children}
+      </div>
+    </section>
+  );
 }
 
-export default function Home() {
-  const [portfolioDetails] = useState<PortfolioDetails>({
-    name: "Ali Benrami",
-    description: "Full Stack Developer",
-    image: "https://avatars.githubusercontent.com/u/111257593?v=4",
-    link: "https://github.com/AliBenrami",
-  });
+function NavCard({
+  icon,
+  title,
+  description,
+  onClick,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="group relative w-full text-left rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+    >
+      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(600px circle at 20% 20%, rgba(255,255,255,0.10), transparent 40%), radial-gradient(600px circle at 80% 80%, rgba(96,165,250,0.10), transparent 40%)",
+        }}
+      />
+      <div className="relative">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">{icon}</span>
+          <span className="text-sm font-medium text-white">{title}</span>
+        </div>
+        <p className="mt-2 text-sm text-white/70">{description}</p>
+      </div>
+    </button>
+  );
+}
+
+export default function HomePage() {
+  const projects: Project[] = useMemo(
+    () => [
+      {
+        name: "Portfolio",
+        problem: "A calm, CS-first portfolio that prioritizes clarity and craft over flash.",
+        stack: ["Next.js", "TypeScript", "Tailwind"],
+        github: "https://github.com/AliBenrami/portfolio",
+        proudOf: "Navigation and visuals stay stable; interactions are subtle and intentional.",
+      },
+    ],
+    []
+  );
+
+  const experiments: Experiment[] = useMemo(
+    () => [
+      {
+        name: "Small tools / demos",
+        note: "A place for half-finished ideas and curiosity-driven builds.",
+      },
+    ],
+    []
+  );
+
+  const scrollTo = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   return (
-    <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-      <div className="flex flex-col items-center justify-center w-full max-w-xl bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl p-6 min-h-[500px]">
-        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-          {portfolioDetails.name}
+    <main className="relative z-10 mx-auto w-full max-w-5xl px-4 pb-20 pt-14 md:px-6 md:pt-20">
+      {/* Hero */}
+      <header className="mx-auto max-w-2xl text-center">
+        <p className="text-xs font-medium tracking-[0.2em] text-white/60">
+          COMPUTER SCIENCE
+        </p>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white md:text-5xl">
+          Ali Benrami
         </h1>
-        <p className="mt-2 text-white/80">{portfolioDetails.description}</p>
+        <p className="mt-4 text-base leading-relaxed text-white/70">
+          Computer Science student building thoughtful software.
+        </p>
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={() => scrollTo("projects")}
+            className="rounded-xl bg-white text-black px-5 py-2.5 text-sm font-medium shadow-sm transition hover:bg-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          >
+            View Projects
+          </button>
+        </div>
+      </header>
 
-        <div className="mt-4 overflow-hidden rounded-[200px]">
-          <Image
-            width={200}
-            height={200}
-            src={portfolioDetails.image}
-            alt={portfolioDetails.name}
-            className="w-full h-56 md:h-64 object-cover"
+      {/* Card navigation */}
+      <section aria-label="Navigation" className="mt-10">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-5">
+          <NavCard
+            icon="🚀"
+            title="Projects"
+            description="Selected work"
+            onClick={() => scrollTo("projects")}
+          />
+          <NavCard
+            icon="🧠"
+            title="About"
+            description="Focus areas"
+            onClick={() => scrollTo("about")}
+          />
+          <NavCard
+            icon="🧪"
+            title="Experiments"
+            description="Curiosity builds"
+            onClick={() => scrollTo("experiments")}
+          />
+          <NavCard
+            icon="🧰"
+            title="Skills"
+            description="What I use"
+            onClick={() => scrollTo("skills")}
+          />
+          <NavCard
+            icon="📡"
+            title="Contact"
+            description="Let’s talk"
+            onClick={() => scrollTo("contact")}
           />
         </div>
+      </section>
 
-        <a
-          href={portfolioDetails.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 text-white px-4 py-2 transition-colors"
-        >
-          {portfolioDetails.link}
-        </a>
-      </div>
-    </div>
+      {/* Content */}
+      <section className="mt-10 grid grid-cols-1 gap-6">
+        <Section id="projects" title="🚀 Projects">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {projects.map((p) => (
+              <article
+                key={p.name}
+                className="rounded-2xl border border-white/10 bg-black/20 p-5"
+              >
+                <h3 className="text-base font-semibold text-white">{p.name}</h3>
+                <p className="mt-2 text-sm text-white/70">{p.problem}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                {p.proudOf ? (
+                  <p className="mt-4 text-sm text-white/65">
+                    <span className="text-white/80">Design decision:</span> {p.proudOf}
+                  </p>
+                ) : null}
+
+                <div className="mt-5 flex gap-3 text-sm">
+                  {p.github ? (
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-white/80 hover:text-white"
+                    >
+                      GitHub
+                    </a>
+                  ) : null}
+                  {p.demo ? (
+                    <a
+                      href={p.demo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-white/80 hover:text-white"
+                    >
+                      Live Demo
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="about" title="🧠 About">
+          <p className="text-sm leading-relaxed text-white/75">
+            I’m a CS student focused on building reliable web software and tooling.
+            I care about clarity, debugging discipline, and systems that are easy to
+            extend.
+          </p>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            <div>
+              <h3 className="text-sm font-medium text-white">Current interests</h3>
+              <ul className="mt-2 space-y-1 text-sm text-white/70">
+                <li>Web engineering (Next.js / TypeScript)</li>
+                <li>Systems fundamentals</li>
+                <li>AI tooling + developer UX</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-white">Currently exploring</h3>
+              <p className="mt-2 text-sm text-white/70">
+                Clean architecture patterns, testing strategy, and performance profiling.
+              </p>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="experiments" title="🧪 Experiments">
+          <div className="grid gap-3">
+            {experiments.map((e) => (
+              <div
+                key={e.name}
+                className="rounded-xl border border-white/10 bg-black/20 p-4"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-white">{e.name}</p>
+                  {e.link ? (
+                    <a
+                      href={e.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm text-white/70 hover:text-white"
+                    >
+                      Link
+                    </a>
+                  ) : null}
+                </div>
+                <p className="mt-2 text-sm text-white/70">{e.note}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="skills" title="🧰 Skills">
+          <div className="grid gap-5 md:grid-cols-3">
+            <div>
+              <h3 className="text-sm font-medium text-white">Comfortable with</h3>
+              <ul className="mt-2 space-y-1 text-sm text-white/70">
+                <li>TypeScript</li>
+                <li>React</li>
+                <li>Next.js</li>
+                <li>Git</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-white">Used in projects</h3>
+              <ul className="mt-2 space-y-1 text-sm text-white/70">
+                <li>PostgreSQL</li>
+                <li>Node.js</li>
+                <li>Tailwind</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-white">Currently exploring</h3>
+              <ul className="mt-2 space-y-1 text-sm text-white/70">
+                <li>Testing (Jest / RTL)</li>
+                <li>Performance + profiling</li>
+                <li>Systems / compilers</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <h3 className="text-sm font-medium text-white">Engineering values</h3>
+            <p className="mt-2 text-sm text-white/70">
+              Readability, performance, and UX — with pragmatic trade-offs.
+            </p>
+          </div>
+        </Section>
+
+        <Section id="contact" title="📡 Contact">
+          <div className="grid gap-3 text-sm">
+            <a className="text-white/80 hover:text-white" href="mailto:abenrami06@gmail.com">
+              abenrami06@gmail.com
+            </a>
+            <a
+              className="text-white/80 hover:text-white"
+              href="https://github.com/AliBenrami"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              className="text-white/80 hover:text-white"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+            <p className="text-white/70">
+              Open to internships or collaboration.
+            </p>
+          </div>
+        </Section>
+      </section>
+
+      <footer className="mt-10 text-center text-xs text-white/50">
+        Built with care. Minimal by design.
+      </footer>
+    </main>
   );
 }
