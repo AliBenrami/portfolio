@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Project = {
   name: string;
@@ -9,6 +9,20 @@ type Project = {
   github?: string;
   demo?: string;
   proudOf?: string;
+};
+
+type GitHubRepo = {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+  homepage: string | null;
+  language: string | null;
+  fork: boolean;
+  archived: boolean;
+  stargazers_count: number;
+  pushed_at: string;
+  topics?: string[];
 };
 
 type Experiment = {
@@ -73,18 +87,64 @@ function NavCard({
 }
 
 export default function HomePage() {
-  const projects: Project[] = useMemo(
-    () => [
-      {
-        name: "Portfolio",
-        problem: "A calm, CS-first portfolio that prioritizes clarity and craft over flash.",
-        stack: ["Next.js", "TypeScript", "Tailwind"],
-        github: "https://github.com/AliBenrami/portfolio",
-        proudOf: "Navigation and visuals stay stable; interactions are subtle and intentional.",
-      },
-    ],
-    []
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectsStatus, setProjectsStatus] = useState<"idle" | "loading" | "error" | "success">(
+    "idle"
   );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        setProjectsStatus("loading");
+
+        const res = await fetch("https://api.github.com/users/AliBenrami/repos?per_page=100&sort=pushed", {
+          headers: {
+            // Request topics when available
+            Accept: "application/vnd.github+json",
+          },
+        });
+
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+
+        const repos = (await res.json()) as GitHubRepo[];
+
+        const filtered = repos
+          .filter((r) => !r.fork && !r.archived)
+          .sort((a, b) => (a.pushed_at < b.pushed_at ? 1 : -1))
+          .slice(0, 10)
+          .map<Project>((r) => {
+            const stack: string[] = [];
+            if (r.language) stack.push(r.language);
+            // Keep stack concise: add up to 2 topic hints if present
+            const topics = (r.topics || []).slice(0, 2);
+            stack.push(...topics);
+
+            return {
+              name: r.name,
+              problem: r.description || "—",
+              stack,
+              github: r.html_url,
+              demo: r.homepage || undefined,
+            };
+          });
+
+        if (cancelled) return;
+        setProjects(filtered);
+        setProjectsStatus("success");
+      } catch {
+        if (cancelled) return;
+        setProjectsStatus("error");
+        setProjects([]);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const experiments: Experiment[] = useMemo(
     () => [
@@ -165,6 +225,15 @@ export default function HomePage() {
       {/* Content */}
       <section className="mt-10 grid grid-cols-1 gap-6">
         <Section id="projects" title="🚀 Projects">
+          {projectsStatus === "loading" ? (
+            <p className="text-sm text-white/70">Loading projects from GitHub…</p>
+          ) : null}
+          {projectsStatus === "error" ? (
+            <p className="text-sm text-white/70">
+              Couldn’t load projects from GitHub right now.
+            </p>
+          ) : null}
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {projects.map((p) => (
               <article
@@ -174,16 +243,18 @@ export default function HomePage() {
                 <h3 className="text-base font-semibold text-white">{p.name}</h3>
                 <p className="mt-2 text-sm text-white/70">{p.problem}</p>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {p.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
+                {p.stack.length ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {p.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
 
                 {p.proudOf ? (
                   <p className="mt-4 text-sm text-white/65">
