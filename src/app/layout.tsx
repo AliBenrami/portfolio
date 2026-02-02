@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Tab tabs={["Home", "Contact"]} />
+        <Tab tabs={["Home", "Blog", "Contact"]} />
         <SkyBackground />
 
         <div className="fixed bottom-4 right-4 z-50">
