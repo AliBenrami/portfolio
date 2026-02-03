@@ -2,38 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @layer base {
   :root {
+    /* Apple Light Color System */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-  }
-
-  .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    
+    /* Primary Colors - Apple's signature palette */
+    --background: 0 0% 98%; /* #FBFBFD - Apple's lightest background */
+    --foreground: 0 0% 8%; /* #141414 - Apple's dark text */
+    
+    /* Surface Colors */
+    --card: 0 0% 100%; /* Pure white for cards */
+    --card-foreground: 0 0% 8%; /* Dark text on cards */
+    --popover: 0 0% 100%; /* Pure white for popovers */
+    --popover-foreground: 0 0% 8%; /* Dark text on popovers */
+    
+    /* Apple Blue System */
+    --primary: 211 100% 45%; /* #0071E3 - Apple's signature blue */
+    --primary-foreground: 0 0% 100%; /* White text on blue */
+    
+    /* Secondary Colors */
+    --secondary: 0 0% 97%; /* #F7F7F7 - Apple's light gray */
+    --secondary-foreground: 0 0% 8%; /* Dark text on secondary */
+    
+    /* Muted Colors */
+    --muted: 0 0% 96%; /* #F5F5F7 - Apple's muted background */
+    --muted-foreground: 0 0% 47%; /* #787880 - Apple's secondary text */
+    
+    /* Accent Colors */
+    --accent: 0 0% 95%; /* #F2F2F7 - Apple's accent gray */
+    --accent-foreground: 0 0% 8%; /* Dark text on accent */
+    
+    /* System Colors */
+    --destructive: 4 90% 58%; /* #FF3B30 - Apple's red */
+    --destructive-foreground: 0 0% 100%; /* White text on red */
+    
+    /* Borders and Inputs */
+    --border: 0 0% 90%; /* #E5E5E7 - Apple's light border */
+    --input: 0 0% 90%; /* Same as border for consistency */
+    --ring: 211 100% 45%; /* Match primary blue */
+    
+    /* Apple Chart Colors */
+    --chart-1: 211 100% 45%; /* Apple blue */
+    --chart-2: 142 71% 45%; /* Apple green */
+    --chart-3: 38 100% 50%; /* Apple orange */
+    --chart-4: 282 84% 53%; /* Apple purple */
+    --chart-5: 4 90% 58%; /* Apple red */
+    
+    /* Apple Border Radius - consistent 8px system */
+    --radius: 0.5rem; /* 8px */
+    
+    /* Apple Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 }
 
-/* This media query will only apply when no theme is manually selected */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not(.dark) {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* File explorer loading animation */
+/* Apple-style animations */
 @keyframes loading-progress {
   0% {
     width: 0%;
@@ -66,73 +94,117 @@ body {
   animation: shake 1s infinite;
 }
 
-/* Custom scrollbar for file explorer feel */
+/* Apple-style fade-in animation */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+/* Apple-style subtle scale animation */
+@keyframes subtle-scale {
+  0% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-subtle-scale {
+  animation: subtle-scale 0.4s ease-out;
+}
+
+/* Apple-style light scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #333;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: #C7C7CC; /* Apple's light scrollbar color */
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #8E8E93; /* Apple's darker scrollbar */
+  background-clip: content-box;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #555;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #777;
-}
-
-/* Twinkle animation for the sky background dots */
-@keyframes twinkle {
-  0% {
-    opacity: 0.25;
-    transform: scale(1);
-  }
-  25% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.15);
-  }
-  75% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0.25;
-    transform: scale(1);
-  }
-}
-
-/* Slow drift for subtle parallax-like motion */
-@keyframes star-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(var(--dx), var(--dy), 0);
-  }
-}
-
+/* Apple-style focus rings */
 @media (prefers-reduced-motion: reduce) {
-  .sky-dot {
-    animation: none !important;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 17px; /* Apple's base font size */
+    line-height: 1.47059; /* Apple's golden ratio for text */
+    letter-spacing: -0.022em; /* Apple's subtle letter spacing */
+  }
+  
+  /* Apple Typography Scale */
+  .text-xs { font-size: 12px; line-height: 1.33337; letter-spacing: -0.005em; }
+  .text-sm { font-size: 14px; line-height: 1.42857; letter-spacing: -0.011em; }
+  .text-base { font-size: 17px; line-height: 1.47059; letter-spacing: -0.022em; }
+  .text-lg { font-size: 19px; line-height: 1.36842; letter-spacing: -0.026em; }
+  .text-xl { font-size: 21px; line-height: 1.33333; letter-spacing: -0.031em; }
+  .text-2xl { font-size: 24px; line-height: 1.33333; letter-spacing: -0.033em; }
+  .text-3xl { font-size: 28px; line-height: 1.28571; letter-spacing: -0.034em; }
+  .text-4xl { font-size: 34px; line-height: 1.11765; letter-spacing: 0em; }
+  .text-5xl { font-size: 48px; line-height: 1.08349; letter-spacing: 0.003em; }
+  .text-6xl { font-size: 56px; line-height: 1.07143; letter-spacing: 0.004em; }
+  
+  /* Apple Font Weights */
+  .font-thin { font-weight: 100; }
+  .font-light { font-weight: 300; }
+  .font-normal { font-weight: 400; }
+  .font-medium { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .font-bold { font-weight: 700; }
+  
+  /* Apple 8px Grid System */
+  .gap-0 { gap: 0px; }
+  .gap-1 { gap: 4px; }
+  .gap-2 { gap: 8px; }
+  .gap-3 { gap: 12px; }
+  .gap-4 { gap: 16px; }
+  .gap-5 { gap: 20px; }
+  .gap-6 { gap: 24px; }
+  .gap-8 { gap: 32px; }
+  .gap-10 { gap: 40px; }
+  .gap-12 { gap: 48px; }
+  .gap-16 { gap: 64px; }
+  .gap-20 { gap: 80px; }
+  .gap-24 { gap: 96px; }
 }

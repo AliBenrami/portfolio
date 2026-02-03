@@ -1,8 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Tab = ({ tabs }: { tabs: string[] }) => {
   const router = useRouter();
+  const pathname = usePathname();
+  
   const handleTabClick = (tab: string) => {
     if (tab === "Home") {
       router.push("/");
@@ -13,25 +15,46 @@ const Tab = ({ tabs }: { tabs: string[] }) => {
     // Normalize tab labels ("Contact") to the actual route path ("/contact").
     router.push(`/${tab.toLowerCase()}`);
   };
+
+  const getIsActive = (tab: string) => {
+    if (tab === "Home") {
+      return pathname === "/";
+    }
+    return pathname === `/${tab.toLowerCase()}`;
+  };
+
   return (
-    <div className="absolute z-20 top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-row gap-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl p-6">
-      {tabs.map((tab, index) => (
-        <div
-          key={tab}
-          className="flex flex-row gap-4 items-center justify-center"
-        >
-          <button
-            onClick={() => handleTabClick(tab)}
-            className="text-white hover:scale-105 active:scale-95 transition-all duration-300"
-          >
-            {tab}
-          </button>
-          {index !== tabs.length - 1 && (
-            <div className="w-1 h-1 bg-white rounded-full hover:scale-105 active:scale-95 transition-all duration-300" />
-          )}
-        </div>
-      ))}
-    </div>
+    <nav 
+      className="absolute z-20 top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div className="inline-flex items-center p-1 rounded-full bg-white/90 backdrop-blur-xl border border-[#E5E5E7]/50 shadow-lg">
+        {tabs.map((tab, index) => {
+          const isActive = getIsActive(tab);
+          return (
+            <button
+              key={tab}
+              onClick={() => handleTabClick(tab)}
+              className={`
+                relative px-6 py-2.5 text-sm font-medium rounded-full transition-all duration-300 ease-out
+                ${isActive 
+                  ? 'bg-[#0071E3] text-white shadow-md' 
+                  : 'text-[#48484A] hover:text-[#1D1D1F] hover:bg-[#F5F5F7]'
+                }
+                ${index === 0 ? 'rounded-l-full' : ''}
+                ${index === tabs.length - 1 ? 'rounded-r-full' : ''}
+              `}
+            >
+              <span className="relative z-10">{tab}</span>
+              {isActive && (
+                <div className="absolute inset-0 bg-[#0071E3] rounded-full animate-subtle-scale" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 };
 

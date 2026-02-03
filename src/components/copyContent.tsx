@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IoCheckmarkCircle, IoDocumentText } from "react-icons/io5";
+import { CheckCircle, Copy } from "lucide-react";
 
 export default function CopyContent({ content }: { content: string }) {
   const [isCopied, setIsCopied] = useState(false);
@@ -56,12 +56,12 @@ export default function CopyContent({ content }: { content: string }) {
           setIsCopied(true);
         }
       }}
-      className="mt-6 inline-flex items-center gap-2 min-h-10 max-w-full rounded-lg bg-white/20 hover:bg-white/30 text-white px-4 py-2 transition-colors cursor-pointer"
+      className="mt-6 inline-flex items-center gap-2 min-h-10 max-w-full rounded-lg bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] px-4 py-2 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md border border-[#E5E5E7]"
     >
       {isCopied ? (
-        <IoCheckmarkCircle className="h-5 w-5 shrink-0 text-green-400" />
+        <CheckCircle className="h-5 w-5 shrink-0 text-[#34C759]" />
       ) : (
-        <IoDocumentText className="h-5 w-5 shrink-0 text-white/80" />
+        <Copy className="h-5 w-5 shrink-0 text-[#8E8E93]" />
       )}
       <span className="max-w-full overflow-x-auto whitespace-nowrap">
         {content}
