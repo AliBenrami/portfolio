@@ -1,49 +1,65 @@
-"use client";
-import { useState } from "react";
 import Image from "next/image";
-
-interface PortfolioDetails {
-  name: string;
-  description: string;
-  image: string;
-  link: string;
-}
+import Section from "@/components/Section";
+import Hero from "@/components/Hero";
+import SkillBadge from "@/components/SkillBadge";
+import ScrollIndicator from "@/components/ScrollIndicator";
+import DoubleButton from "@/components/AnimatedButtonGroup";
+import { featuredSkills } from "@/data/resume";
 
 export default function Home() {
-  const [portfolioDetails] = useState<PortfolioDetails>({
-    name: "Ali Benrami",
-    description: "Full Stack Developer",
-    image: "https://avatars.githubusercontent.com/u/111257593?v=4",
-    link: "https://github.com/AliBenrami",
-  });
-
   return (
-    <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-      <div className="flex flex-col items-center justify-center w-full max-w-xl bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl p-6 min-h-[500px]">
-        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-          {portfolioDetails.name}
-        </h1>
-        <p className="mt-2 text-white/80">{portfolioDetails.description}</p>
+    <>
+      <Hero
+        title="Ali Benrami"
+        subtitle="Software Engineer"
+        description="Building digital experiences that matter. Focused on creating clean, performant, and user-friendly applications."
+      >
+        <DoubleButton buttons={[{ label: "View Projects", value: "/projects", href: "/projects" }, { label: "Get in Touch", value: "mailto:abenrami06@gmail.com", href: "mailto:abenrami06@gmail.com" }]} initialSelected="/projects" />
+      </Hero>
+      <ScrollIndicator targetId="about-section" hideAfterScroll={0.1} />
 
-        <div className="mt-4 overflow-hidden rounded-[200px]">
-          <Image
-            width={200}
-            height={200}
-            src={portfolioDetails.image}
-            alt={portfolioDetails.name}
-            className="w-full h-56 md:h-64 object-cover"
-          />
+
+      <Section variant="gray" id="about-section">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <div className="shrink-0">
+            <Image
+              src="https://avatars.githubusercontent.com/u/111257593?v=4"
+              alt="Ali Benrami"
+              width={180}
+              height={180}
+              className="rounded-full"
+              priority
+            />
+          </div>
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-apple-text tracking-tight">
+              About Me
+            </h2>
+            <p className="mt-4 text-lg text-apple-text-secondary leading-relaxed">
+            What really drives me is the way AI and machine learning can transform how we interact with technology. 
+            I&apos;m especially fascinated by embedded systems - there&apos;s something compelling about bringing 
+            intelligence into physical devices with real constraints. Whether I&apos;m working with NLP, building 
+            out RAG pipelines, or designing agentic architectures, what I&apos;m always chasing is that moment when 
+            something I&apos;ve built genuinely helps someone solve a problem they couldn&apos;t before.
+            </p>
+          </div>
         </div>
 
-        <a
-          href={portfolioDetails.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 text-white px-4 py-2 transition-colors"
-        >
-          {portfolioDetails.link}
-        </a>
-      </div>
-    </div>
+        <div className="mt-16">
+          <h3 className="text-xl font-semibold text-apple-text mb-6">
+            Technologies I Work With
+          </h3>
+          <div className="flex flex-wrap gap-4">
+            {featuredSkills.map((skill) => (
+              <SkillBadge key={skill.name} name={skill.name} icon={skill.icon} />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-wrap gap-4">
+          <DoubleButton buttons={[{ label: "GitHub", value: "https://github.com/AliBenrami", href: "https://github.com/AliBenrami" }, { label: "LinkedIn", value: "https://www.linkedin.com/in/ali-benrami-232b05248/", href: "https://www.linkedin.com/in/ali-benrami-232b05248/" }]} initialSelected="https://github.com/AliBenrami" />
+        </div>
+      </Section>
+    </>
   );
 }
