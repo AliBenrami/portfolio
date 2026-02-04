@@ -20,7 +20,7 @@ export const projects: Project[] = [
       "Shadcn/ui",
     ],
     github: "https://github.com/Fundthesis/Fundthesis",
-    live: "https://fundthesis.net",
+    live: "https://www.fundthesis.net",
   },
   {
     title: "Kori.Study",
@@ -54,5 +54,6 @@ export const projects: Project[] = [
       "Langchain",
     ],
     github: "https://github.com/Conwenu/AskTemoc_Backend",
+    live: "https://asktemoc.vercel.app/",
   },
 ];
