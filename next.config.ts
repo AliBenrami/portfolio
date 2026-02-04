@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
         hostname: "avatars.githubusercontent.com",
       },
     ],
-    // Extra compatibility (some setups still rely on `domains`).
-    domains: ["avatars.githubusercontent.com"],
   },
   async headers() {
     return [

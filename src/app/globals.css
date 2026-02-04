@@ -3,136 +3,103 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --apple-bg: #ffffff;
+  --apple-bg-alt: #f5f5f7;
+  --apple-text: #1d1d1f;
+  --apple-text-secondary: #86868b;
+  --apple-accent: #1d1d1f;
+  --apple-accent-hover: #000000;
+  --apple-border: #d2d2d7;
 }
 
 @layer base {
-  :root {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+  html {
+    scroll-behavior: smooth;
   }
 
-  .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-/* This media query will only apply when no theme is manually selected */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not(.dark) {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background: var(--apple-bg);
+    color: var(--apple-text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+      "SF Pro Icons", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* File explorer loading animation */
-@keyframes loading-progress {
+/* Fade in up animation for page elements */
+@keyframes fadeInUp {
   0% {
-    width: 0%;
-    transform: translateX(-100%);
-  }
-  50% {
-    width: 70%;
-    transform: translateX(30%);
+    opacity: 0;
+    transform: translateY(20px);
   }
   100% {
-    width: 100%;
-    transform: translateX(100%);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.animate-loading-progress {
-  animation: loading-progress 2s infinite;
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(10px);
-  }
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.6s ease-out 0.1s forwards;
+  opacity: 0;
 }
 
-.animate-shake {
-  animation: shake 1s infinite;
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  opacity: 0;
 }
 
-/* Custom scrollbar for file explorer feel */
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-4 {
+  animation: fadeInUp 0.6s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-5 {
+  animation: fadeInUp 0.6s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+/* Custom scrollbar - minimal Apple style */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #333;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: #d2d2d7;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #86868b;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #555;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #777;
-}
-
-/* Twinkle animation for the sky background dots */
-@keyframes twinkle {
-  0% {
-    opacity: 0.25;
-    transform: scale(1);
-  }
-  25% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.15);
-  }
-  75% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0.25;
-    transform: scale(1);
-  }
-}
-
-/* Slow drift for subtle parallax-like motion */
-@keyframes star-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(var(--dx), var(--dy), 0);
-  }
-}
-
+/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  .sky-dot {
-    animation: none !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-in-up,
+  .animate-fade-in-up-delay-1,
+  .animate-fade-in-up-delay-2,
+  .animate-fade-in-up-delay-3,
+  .animate-fade-in-up-delay-4,
+  .animate-fade-in-up-delay-5 {
+    animation: none;
+    opacity: 1;
   }
 }

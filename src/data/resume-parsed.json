@@ -1,0 +1,75 @@
+{
+  "personalInfo": {
+    "name": "Ali Benrami",
+    "phone": "972-266-3247",
+    "email": "abenrami06@gmail.com",
+    "github": "github.com/AliBenrami",
+    "website": "Alibenrami.com"
+  },
+  "education": {
+    "school": "The",
+    "location": "University of Texas at Dallas Richardson, TX",
+    "degree": "Bachelor of Computer Science",
+    "gpa": "3.98",
+    "date": "May 2027"
+  },
+  "experiences": [
+    {
+      "role": "AIM Fundthesis Co-Mentor",
+      "context": "Artificial Intelligence Mentorship Program",
+      "organization": "UT Dallas AIS UT Dallas",
+      "location": "",
+      "duration": "August 2025 - Present",
+      "bullets": [
+        "Mentored a team of 6 students in the AIM program, guiding them from AI project ideation to deployment.",
+        "Led weekly check-ins, code reviews, and technical support in ML and full-stack dev, resulting in a functional MVP"
+      ]
+    },
+    {
+      "role": "AIS Inno Labs",
+      "context": "AskTemoc",
+      "organization": "UT Dallas AIS UT Dallas",
+      "location": "",
+      "duration": "August 2025 - Present",
+      "bullets": [
+        "Collaborating with a 6-member team under AIS Inno Labs to design a Retrieval-Augmented Generation (RAG)",
+        "Planned backend architecture with FastAPI, Pinecone, and LangChain, including document parsing, embeddings,",
+        "Defined evaluation strategy using DeepEval/RAGAS to guide iterative refinements to chunking, embeddings, and"
+      ]
+    }
+  ],
+  "projects": [],
+  "skills": {
+    "languages": [
+      "TypeScript",
+      "Python",
+      "C/C++",
+      "SQL",
+      "Java"
+    ],
+    "frameworks": [
+      "Next.js",
+      "PyTorch",
+      "scikit-learn",
+      "Flask",
+      "FastAPI",
+      "Flutter"
+    ],
+    "libraries": [
+      "NumPy",
+      "Pandas",
+      "Hugging Face",
+      "LangChain"
+    ],
+    "databases": [
+      "MongoDB",
+      "ChromaDB",
+      "Supabase",
+      "Firestore"
+    ],
+    "developerTools": [
+      "GitHub",
+      "Vercel"
+    ]
+  }
+}
